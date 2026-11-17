@@ -1,0 +1,12 @@
+psycopg2-binary
+pandas
+numpy
+scipy
+requests
+python-dotenv
+pillow
+sentence-transformers   # CLIP(海報) + 多語文字 embedding
+torch
+streamlit
+scikit-learn
+tqdm
