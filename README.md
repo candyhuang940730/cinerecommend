@@ -10,3 +10,5 @@
 9. `python -m core.trust`           # 計算信任分數
 10. `streamlit run app.py`
 11. `python -m core.evaluate`       # P@K / R@K 消融實驗
+
+※This product uses the TMDB API but is not endorsed or certified by TMDB.
