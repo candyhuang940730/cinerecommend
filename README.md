@@ -1,6 +1,6 @@
 # CineRecommend 執行順序
 1. `cp .env.example .env` 填入 TMDB_API_KEY
-2. `docker compose up -d`            # PostgreSQL + pgvector,自動建表
+2. `docker compose up -d`# PostgreSQL + pgvector,自動建表
 3. `pip install -r requirements.txt`
 4. 下載 MovieLens(先用 ml-latest-small 測試,再換 20M)
 5. `python -m etl.load_movielens ./ml-latest-small`
