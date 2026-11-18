@@ -11,3 +11,7 @@
 .env
 .vscode/
 ml-latest-small
+.venv/
+__pycache__/
+ml-*/
+eval_results*.csv
