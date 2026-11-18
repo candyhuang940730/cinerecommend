@@ -13,17 +13,17 @@ def pr_at_k(recs, truth, k):
     hit = len(set(recs[:k]) & truth)
     return hit / k, hit / max(1, len(truth))
 
-def run(users, k=10, alpha=0.5, min_liked=10):
+def run(users, k=10, min_liked=10, **kw):
     P, Rc = [], []
     for u in users:
         with conn() as c:
-            if len(R.liked_movies(c, u)) < min_liked:   # 高分片太少的人不評估
+            if len(R.liked_movies(c, u)) < min_liked:
                 continue
             _, truth = split(c, u)
-        recs = R.recommend(u, topk=k, alpha=alpha, holdout=truth).index.tolist()
+        recs = R.recommend(u, topk=k, holdout=truth, **kw).index.tolist()
         p, r = pr_at_k(recs, truth, k); P.append(p); Rc.append(r)
     print(f"  評估了 {len(P)} 位使用者")
-    return round(np.mean(P), 4), round(np.mean(Rc), 4)
+    return round(float(np.mean(P)), 4), round(float(np.mean(Rc)), 4)
 
 def run_popular(users, k=10, min_liked=10):
     """基準線:推薦評分人數最多、且使用者沒看過的電影"""
@@ -42,17 +42,22 @@ def run_popular(users, k=10, min_liked=10):
     return round(float(np.mean(P)), 4), round(float(np.mean(Rc)), 4)
 
 if __name__ == "__main__":
-    import sys, csv
+    import csv
     users = range(1, 301)
-    settings = [("熱門榜基準", None), ("只內容", 1.0), ("只社群", 0.0), ("混合", 0.5)]
-    only = sys.argv[1] if len(sys.argv) > 1 else None   # 可只跑單一項,例如: python -m core.evaluate 只內容
-
-    with open("eval_results.csv", "a", newline="", encoding="utf-8-sig") as f:
+    settings = [
+        ("熱門榜基準", None),
+        ("只內容", dict(alpha=1.0)),
+        ("只社群(含信任)", dict(alpha=0.0)),
+        ("只社群(不含信任)", dict(alpha=0.0, use_trust=False)),
+        ("混合 α=0.2", dict(alpha=0.2)),
+        ("混合 α=0.5", dict(alpha=0.5)),
+        ("混合 α=0.8", dict(alpha=0.8)),
+        ("混合+熱門 0.3", dict(alpha=0.2, pop_weight=0.3)),
+    ]
+    with open("eval_results2.csv", "w", newline="", encoding="utf-8-sig") as f:
         w = csv.writer(f)
-        for name, a in settings:
-            if only and only != name:
-                continue
+        for name, kw in settings:
             print(f"開始:{name}", flush=True)
-            res = run_popular(users) if a is None else run(users, alpha=a)
-            print(f"{name}: P@10, R@10 = {res}", flush=True)
-            w.writerow([name, a, *res]); f.flush()
+            res = run_popular(users) if kw is None else run(users, **kw)
+            print(f"{name}: {res}", flush=True)
+            w.writerow([name, *res]); f.flush()
