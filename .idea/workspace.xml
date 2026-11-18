@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1fe7f9fd-de7e-4d57-b4f2-3214aee93e66" name="Changes" comment="feat: build multimodal + trust-aware movie recommender (initial version)&#10;&#10;Data pipeline&#10;- Add PostgreSQL + pgvector schema (movies, genres, reviews, users,&#10;  movie_features, user_trust) and docker-compose setup&#10;- Load MovieLens into the database; fetch overviews and poster URLs from&#10;  TMDB concurrently with retry and timeout handling&#10;- Add synthetic spam-user injection for robustness experiments&#10;&#10;Features and scoring&#10;- Embed plot text (multilingual MiniLM) and posters (CLIP) into pgvector&#10;- Compute per-user trust from rating consistency, volume and diversity&#10;- Hybrid recommender: content similarity + trust-weighted social CF&#10;  (Pearson similarity shrunk by co-rated count, damping, min support)&#10;- Add genre filter&#10;&#10;App&#10;- Streamlit UI with user profile sidebar, new-user creation, rating tab,&#10;  alpha slider and genre multiselect&#10;&#10;Evaluation&#10;- Precision@K / Recall@K with held-out ratings masked to avoid leakage&#10;- Popularity baseline, results written to CSV">
-      <change beforePath="$PROJECT_DIR$/core/evaluate.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/evaluate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/recommend.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/recommend.py" afterDir="false" />
+    <list default="true" id="1fe7f9fd-de7e-4d57-b4f2-3214aee93e66" name="Changes" comment="docs:">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,21 +46,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Python.python -m features.embed.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/user/Desktop/cinerecommend&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.python -m features.embed.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/user/Desktop/cinerecommend",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="pip install -r requirements.txt" />
@@ -116,7 +115,7 @@
       <updated>1794916822810</updated>
       <workItem from="1794916823936" duration="1177000" />
       <workItem from="1794919616044" duration="6825000" />
-      <workItem from="1794973284416" duration="8066000" />
+      <workItem from="1794973284416" duration="9680000" />
     </task>
     <task id="LOCAL-00001" summary="feat: 程式執行及新增電影種類選擇">
       <option name="closed" value="true" />
@@ -134,7 +133,23 @@
       <option name="project" value="LOCAL" />
       <updated>1795011286143</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="feat(recommend): add use_trust switch and popularity blending&#10;&#10;- Pass use_trust through to social_scores so trust weighting can be&#10;  disabled for ablation&#10;- Add pop_weight to blend normalized log-popularity into the final&#10;  score (default 0.0, behavior unchanged)">
+      <option name="closed" value="true" />
+      <created>1795011603880</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1795011603880</updated>
+    </task>
+    <task id="LOCAL-00004" summary="test(eval): add ablation, alpha sweep and popularity-blend settings&#10;&#10;- run() forwards kwargs to recommend()&#10;- Add settings for trust ablation, alpha sweep and popularity blending&#10;- Write results to eval_results2.csv">
+      <option name="closed" value="true" />
+      <created>1795011614400</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1795011614400</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -143,7 +158,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="feat: 程式執行及新增電影種類選擇" />
     <MESSAGE value="feat: build multimodal + trust-aware movie recommender (initial version)&#10;&#10;Data pipeline&#10;- Add PostgreSQL + pgvector schema (movies, genres, reviews, users,&#10;  movie_features, user_trust) and docker-compose setup&#10;- Load MovieLens into the database; fetch overviews and poster URLs from&#10;  TMDB concurrently with retry and timeout handling&#10;- Add synthetic spam-user injection for robustness experiments&#10;&#10;Features and scoring&#10;- Embed plot text (multilingual MiniLM) and posters (CLIP) into pgvector&#10;- Compute per-user trust from rating consistency, volume and diversity&#10;- Hybrid recommender: content similarity + trust-weighted social CF&#10;  (Pearson similarity shrunk by co-rated count, damping, min support)&#10;- Add genre filter&#10;&#10;App&#10;- Streamlit UI with user profile sidebar, new-user creation, rating tab,&#10;  alpha slider and genre multiselect&#10;&#10;Evaluation&#10;- Precision@K / Recall@K with held-out ratings masked to avoid leakage&#10;- Popularity baseline, results written to CSV" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: build multimodal + trust-aware movie recommender (initial version)&#10;&#10;Data pipeline&#10;- Add PostgreSQL + pgvector schema (movies, genres, reviews, users,&#10;  movie_features, user_trust) and docker-compose setup&#10;- Load MovieLens into the database; fetch overviews and poster URLs from&#10;  TMDB concurrently with retry and timeout handling&#10;- Add synthetic spam-user injection for robustness experiments&#10;&#10;Features and scoring&#10;- Embed plot text (multilingual MiniLM) and posters (CLIP) into pgvector&#10;- Compute per-user trust from rating consistency, volume and diversity&#10;- Hybrid recommender: content similarity + trust-weighted social CF&#10;  (Pearson similarity shrunk by co-rated count, damping, min support)&#10;- Add genre filter&#10;&#10;App&#10;- Streamlit UI with user profile sidebar, new-user creation, rating tab,&#10;  alpha slider and genre multiselect&#10;&#10;Evaluation&#10;- Precision@K / Recall@K with held-out ratings masked to avoid leakage&#10;- Popularity baseline, results written to CSV" />
+    <MESSAGE value="feat(recommend): add use_trust switch and popularity blending&#10;&#10;- Pass use_trust through to social_scores so trust weighting can be&#10;  disabled for ablation&#10;- Add pop_weight to blend normalized log-popularity into the final&#10;  score (default 0.0, behavior unchanged)" />
+    <MESSAGE value="test(eval): add ablation, alpha sweep and popularity-blend settings&#10;&#10;- run() forwards kwargs to recommend()&#10;- Add settings for trust ablation, alpha sweep and popularity blending&#10;- Write results to eval_results2.csv" />
+    <option name="LAST_COMMIT_MESSAGE" value="test(eval): add ablation, alpha sweep and popularity-blend settings&#10;&#10;- run() forwards kwargs to recommend()&#10;- Add settings for trust ablation, alpha sweep and popularity blending&#10;- Write results to eval_results2.csv" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/cinerecommend$python__m_features_embed.coverage" NAME="python -m features.embed Coverage Results" MODIFIED="1794925431094" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
