@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1fe7f9fd-de7e-4d57-b4f2-3214aee93e66" name="Changes" comment="feat: 程式執行及新增電影種類選擇">
-      <change afterPath="$PROJECT_DIR$/core/profile.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/debug_eval.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+    <list default="true" id="1fe7f9fd-de7e-4d57-b4f2-3214aee93e66" name="Changes" comment="feat: build multimodal + trust-aware movie recommender (initial version)&#10;&#10;Data pipeline&#10;- Add PostgreSQL + pgvector schema (movies, genres, reviews, users,&#10;  movie_features, user_trust) and docker-compose setup&#10;- Load MovieLens into the database; fetch overviews and poster URLs from&#10;  TMDB concurrently with retry and timeout handling&#10;- Add synthetic spam-user injection for robustness experiments&#10;&#10;Features and scoring&#10;- Embed plot text (multilingual MiniLM) and posters (CLIP) into pgvector&#10;- Compute per-user trust from rating consistency, volume and diversity&#10;- Hybrid recommender: content similarity + trust-weighted social CF&#10;  (Pearson similarity shrunk by co-rated count, damping, min support)&#10;- Add genre filter&#10;&#10;App&#10;- Streamlit UI with user profile sidebar, new-user creation, rating tab,&#10;  alpha slider and genre multiselect&#10;&#10;Evaluation&#10;- Precision@K / Recall@K with held-out ratings masked to avoid leakage&#10;- Popularity baseline, results written to CSV">
       <change beforePath="$PROJECT_DIR$/core/evaluate.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/evaluate.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/recommend.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/recommend.py" afterDir="false" />
     </list>
@@ -121,7 +116,7 @@
       <updated>1794916822810</updated>
       <workItem from="1794916823936" duration="1177000" />
       <workItem from="1794919616044" duration="6825000" />
-      <workItem from="1794973284416" duration="7747000" />
+      <workItem from="1794973284416" duration="8066000" />
     </task>
     <task id="LOCAL-00001" summary="feat: 程式執行及新增電影種類選擇">
       <option name="closed" value="true" />
@@ -131,7 +126,15 @@
       <option name="project" value="LOCAL" />
       <updated>1794973851243</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="feat: build multimodal + trust-aware movie recommender (initial version)&#10;&#10;Data pipeline&#10;- Add PostgreSQL + pgvector schema (movies, genres, reviews, users,&#10;  movie_features, user_trust) and docker-compose setup&#10;- Load MovieLens into the database; fetch overviews and poster URLs from&#10;  TMDB concurrently with retry and timeout handling&#10;- Add synthetic spam-user injection for robustness experiments&#10;&#10;Features and scoring&#10;- Embed plot text (multilingual MiniLM) and posters (CLIP) into pgvector&#10;- Compute per-user trust from rating consistency, volume and diversity&#10;- Hybrid recommender: content similarity + trust-weighted social CF&#10;  (Pearson similarity shrunk by co-rated count, damping, min support)&#10;- Add genre filter&#10;&#10;App&#10;- Streamlit UI with user profile sidebar, new-user creation, rating tab,&#10;  alpha slider and genre multiselect&#10;&#10;Evaluation&#10;- Precision@K / Recall@K with held-out ratings masked to avoid leakage&#10;- Popularity baseline, results written to CSV">
+      <option name="closed" value="true" />
+      <created>1795011286143</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1795011286143</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -139,7 +142,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="feat: 程式執行及新增電影種類選擇" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: 程式執行及新增電影種類選擇" />
+    <MESSAGE value="feat: build multimodal + trust-aware movie recommender (initial version)&#10;&#10;Data pipeline&#10;- Add PostgreSQL + pgvector schema (movies, genres, reviews, users,&#10;  movie_features, user_trust) and docker-compose setup&#10;- Load MovieLens into the database; fetch overviews and poster URLs from&#10;  TMDB concurrently with retry and timeout handling&#10;- Add synthetic spam-user injection for robustness experiments&#10;&#10;Features and scoring&#10;- Embed plot text (multilingual MiniLM) and posters (CLIP) into pgvector&#10;- Compute per-user trust from rating consistency, volume and diversity&#10;- Hybrid recommender: content similarity + trust-weighted social CF&#10;  (Pearson similarity shrunk by co-rated count, damping, min support)&#10;- Add genre filter&#10;&#10;App&#10;- Streamlit UI with user profile sidebar, new-user creation, rating tab,&#10;  alpha slider and genre multiselect&#10;&#10;Evaluation&#10;- Precision@K / Recall@K with held-out ratings masked to avoid leakage&#10;- Popularity baseline, results written to CSV" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: build multimodal + trust-aware movie recommender (initial version)&#10;&#10;Data pipeline&#10;- Add PostgreSQL + pgvector schema (movies, genres, reviews, users,&#10;  movie_features, user_trust) and docker-compose setup&#10;- Load MovieLens into the database; fetch overviews and poster URLs from&#10;  TMDB concurrently with retry and timeout handling&#10;- Add synthetic spam-user injection for robustness experiments&#10;&#10;Features and scoring&#10;- Embed plot text (multilingual MiniLM) and posters (CLIP) into pgvector&#10;- Compute per-user trust from rating consistency, volume and diversity&#10;- Hybrid recommender: content similarity + trust-weighted social CF&#10;  (Pearson similarity shrunk by co-rated count, damping, min support)&#10;- Add genre filter&#10;&#10;App&#10;- Streamlit UI with user profile sidebar, new-user creation, rating tab,&#10;  alpha slider and genre multiselect&#10;&#10;Evaluation&#10;- Precision@K / Recall@K with held-out ratings masked to avoid leakage&#10;- Popularity baseline, results written to CSV" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/cinerecommend$python__m_features_embed.coverage" NAME="python -m features.embed Coverage Results" MODIFIED="1794925431094" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
