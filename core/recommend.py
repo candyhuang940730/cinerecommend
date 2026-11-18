@@ -50,15 +50,21 @@ def list_genres():
         return pd.read_sql("SELECT name FROM genres ORDER BY name", c).name.tolist()
 
 
-def recommend(user_id, topk=10, alpha=0.5, genres=None, holdout=None):
+def recommend(user_id, topk=10, alpha=0.5, genres=None, holdout=None,
+              use_trust=True, pop_weight=0.0):
     holdout = set(holdout or [])
     with conn() as c:
         liked = [m for m in liked_movies(c, user_id) if m not in holdout]
         cs = content_scores(c, liked)
-        ss = social_scores(c, user_id, holdout=holdout)
+        ss = social_scores(c, user_id, holdout=holdout, use_trust=use_trust)
         norm = lambda s: (s - s.min()) / (s.max() - s.min() + 1e-9) if len(s) else s
         df = pd.concat([norm(cs).rename("content"), norm(ss).rename("social")], axis=1).fillna(0)
-        df["final"] = alpha * df.content + (1 - alpha) * df.social
+        base = alpha * df.content + (1 - alpha) * df.social
+
+        pop = pd.read_sql("SELECT movie_id, count(*) n FROM reviews GROUP BY movie_id", c).set_index("movie_id").n
+        pop = norm(np.log1p(pop)).reindex(df.index).fillna(0)
+        df["final"] = (1 - pop_weight) * base + pop_weight * pop
+
         if genres:
             ok = pd.read_sql("""SELECT DISTINCT mg.movie_id FROM movie_genres mg
                                 JOIN genres g USING(genre_id) WHERE g.name = ANY(%s)""",
