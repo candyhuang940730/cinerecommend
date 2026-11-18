@@ -39,13 +39,25 @@ def social_scores(c, user_id, min_common=3, k=50):
     den = sub[unseen_cols].notna().mul(w, axis=0).sum()
     return (num / den.replace(0, np.nan)).dropna()
 
-def recommend(user_id, topk=10, alpha=0.5):
+def list_genres():
+    with conn() as c:
+        return pd.read_sql("SELECT name FROM genres ORDER BY name", c).name.tolist()
+
+def recommend(user_id, topk=10, alpha=0.5, genres=None):
     with conn() as c:
         cs = content_scores(c, liked_movies(c, user_id))
         ss = social_scores(c, user_id)
         norm = lambda s: (s - s.min()) / (s.max() - s.min() + 1e-9) if len(s) else s
         df = pd.concat([norm(cs).rename("content"), norm(ss).rename("social")], axis=1).fillna(0)
         df["final"] = alpha * df.content + (1 - alpha) * df.social
+
+        if genres:  # 只保留至少屬於一個所選類型的電影
+            ok = pd.read_sql(
+                """SELECT DISTINCT mg.movie_id FROM movie_genres mg
+                   JOIN genres g USING(genre_id) WHERE g.name = ANY(%s)""",
+                c, params=(genres,)).movie_id
+            df = df[df.index.isin(ok)]
+
         top = df.sort_values("final", ascending=False).head(topk)
         info = pd.read_sql("SELECT movie_id,title,year,poster_url FROM movies WHERE movie_id = ANY(%s)",
                            c, params=(top.index.tolist(),)).set_index("movie_id")
