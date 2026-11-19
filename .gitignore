@@ -16,3 +16,4 @@ __pycache__/
 ml-*/
 eval_results*.csv
 .idea/
+run_share.ps1
