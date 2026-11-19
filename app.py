@@ -37,7 +37,7 @@ with tab2:
                 add_rating(uid, int(m.movie_id), float(score)); st.rerun()
 
 with tab1:
-    alpha = st.slider("內容(多模態) ↔ 社群信任 權重", 0.0, 1.0, 0.5)
+    alpha = st.slider("社群信任 ↔ 內容(多模態) 權重", 0.0, 1.0, 0.5)
     genres = st.multiselect("電影類型(不選=全部)", list_genres())
     if st.button("推薦"):
         if p["n"] < 5:
