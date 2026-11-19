@@ -79,6 +79,8 @@ def year_range():
 # ---------- Header ----------
 st.title("🎬 CineRecommend")
 st.caption(t("caption"))
+lo, hi = year_range()
+st.caption(t("years").format(lo=lo, hi=hi))
 
 c1, c2, c3 = st.columns(3)
 c1.markdown(f"### 1.👤\n{t('s1')}", help=t("s1h"))
