@@ -1,6 +1,8 @@
 import streamlit as st
 from core.recommend import recommend, list_genres
 from core.profile import get_profile, search_movies, create_user, add_rating
+import pandas as pd
+from core.db import conn
 
 st.set_page_config(page_title="CineRecommend", page_icon="🎬", layout="wide")
 
@@ -28,6 +30,7 @@ TEXT = {
         "empty": "No movies match your filters.",
         "no_result": "No movies found for “{kw}”.",
         "no_result_hint": "Tips: search by the English title (e.g. “Matrix”), try a shorter keyword, or check the spelling. Only the most-rated movies are in the database, so very obscure titles may be missing.",
+        "years": "🗓️ Movies released {lo} – {hi}",
     },
     "zh": {
         "caption": "結合劇情相似度、海報風格，以及品味相近的可信使用者評分，幫你找到想看的電影。",
@@ -51,6 +54,7 @@ TEXT = {
         "empty": "沒有符合條件的電影。",
         "no_result": "找不到「{kw}」相關的電影。",
         "no_result_hint": "小提示：請用英文片名搜尋（例如 “Matrix”）、試試較短的關鍵字，或檢查拼字。資料庫只收錄評分數較多的電影，太冷門的片可能不在其中。",
+        "years": "🗓️ 收錄電影上映時間：{lo} – {hi}",
     },
 }
 GENRE_ZH = {
@@ -66,6 +70,11 @@ lang_label = st.sidebar.radio("🌐", ["English", "中文"], horizontal=True, ke
 lang = "en" if lang_label == "English" else "zh"
 t = lambda k: TEXT[lang][k]
 genre_name = (lambda g: GENRE_ZH.get(g, g)) if lang == "zh" else (lambda g: g)
+@st.cache_data
+def year_range():
+    with conn() as c:
+        r = pd.read_sql("SELECT min(year) lo, max(year) hi FROM movies", c).iloc[0]
+    return int(r.lo), int(r.hi)
 
 # ---------- Header ----------
 st.title("🎬 CineRecommend")
